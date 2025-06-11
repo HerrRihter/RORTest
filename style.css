@@ -206,19 +206,19 @@ body {
 .category-items {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Центрируем ряды слотов, если они не занимают всю ширину */
+    justify-content: center;
     padding: 10px;
     background-color: #333;
     border-radius: 0 0 4px 4px;
     gap: 10px;
     box-sizing: border-box;
+    /* align-items: flex-start; /* Это может помочь, если advisor-slots сами по себе правильные, но растягиваются */
 }
 
 /* Общие стили для слотов, не затрагивающие соотношение сторон напрямую */
 .item-slot,
 .constitutional-principle,
 .corporation-slot {
-    /* Ширина и высота/padding-bottom будут установлены для каждого типа слота индивидуально */
     background-color: #3a3a3a;
     background-size: cover;
     background-position: center;
@@ -226,46 +226,36 @@ body {
     border: 1px solid #666;
     border-radius: 5px;
     cursor: pointer;
-    position: relative; /* Для подписей и позиционирования img */
+    position: relative;
     box-sizing: border-box;
-    padding: 0; /* Убираем внутренние отступы, так как img будет позиционироваться */
-    overflow: hidden; /* Важно для border-radius и абсолютно позиционированных img */
+    padding: 0;
+    overflow: hidden;
 }
 
-/* Стили для слотов корпораций и обычных item-slot (если есть другие) */
-.item-slot, /* Для каких-то других универсальных слотов, если понадобятся */
+.item-slot, 
 .corporation-slot {
-    width: 132px; /* Фиксированная ширина на десктопе */
-    height: 132px; /* Квадратные */
-    background-image: url('history/portraits_background/empty_advisor_bg.png'); /* Общий фон для пустых */
+    width: 132px; 
+    height: 132px; 
+    background-image: url('history/portraits_background/empty_advisor_bg.png');
 }
 .item-slot img,
 .corporation-slot img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* или contain, в зависимости от желаемого для этих иконок */
-    display: block;
+    width: 100%; height: 100%; object-fit: cover; display: block;
 }
 
-/* Стили для конституционных принципов */
 .constitutional-principle {
-    width: 156px;
-    height: 156px;
+    width: 156px; height: 156px;
     background-image: url('history/portraits_background/constitutional_principles_empty_bg.png');
 }
 .constitutional-principle img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    width: 100%; height: 100%; object-fit: cover; display: block;
 }
-
 
 /* --- Стили для СОВЕТНИКОВ (ADVISORS) --- */
 .advisor-portrait-slot {
-    width: 132px; /* Базовая ширина на десктопе */
+    width: 132px; 
     height: 0;
-    padding-bottom: 148.1%; /* (234 / 158) * 100% */
+    padding-bottom: 148%; /* (234 / 158) * 100%, добавил знаков после запятой для точности */
     position: relative;
     background-color: #3a3a3a;
     background-image: url('history/portraits_background/empty_advisor_bg.png');
@@ -277,15 +267,14 @@ body {
     overflow: hidden;
     cursor: pointer;
     box-sizing: border-box;
+    align-self: flex-start; /* !ВАЖНО: предотвращает растягивание по высоте flex-контейнером */
 }
 .advisor-portrait-slot img {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     object-fit: cover; 
-    object-position: center top; /* Для лучшего кадрирования портретов */
+    object-position: center top; 
     display: block;
 }
 
@@ -294,13 +283,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 132px; /* Базовая ширина обертки на десктопе */
+    width: 132px; 
+    align-self: flex-start; /* Тоже может быть полезно, чтобы высота не растягивалась из-за других элементов в ряду*/
 }
-
-.item-slot.development-area { /* Это контейнер для иконки и НАКЛАДЫВАЕМОЙ на нее подписи */
-    width: 100%; /* Занимает всю ширину .development-area-wrapper */
+.item-slot.development-area { 
+    width: 100%; 
     height: 0;
-    padding-bottom: 150%; /* (198 / 132) * 100% = 1.5 * 100% */
+    padding-bottom: 150%; /* (198 / 132) * 100% */
     position: relative;
     background-color: #3a3a3a;
     background-image: url('history/portraits_background/empty_advisor_bg.png');
@@ -308,29 +297,24 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     border: 1px solid #666;
-    border-radius: 5px 5px 0 0; /* Скругление только верхних углов */
+    border-radius: 5px 5px 0 0; 
     margin-bottom: 0;
     overflow: hidden; 
 }
-
-.item-slot.development-area img { /* Иконка самой области развития */
+.item-slot.development-area img { 
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Чтобы вся иконка была видна внутри пропорционального слота */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: contain; 
     display: block;
-    padding: 5px; /* Небольшой внутренний отступ для иконки, если нужно */
+    padding: 0; 
     box-sizing: border-box;
 }
 
 /* Подпись НАЗВАНИЯ УРОВНЯ внутри .item-slot.development-area (и других слотов) */
 .item-slot-label-small {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 0; left: 0; right: 0;
     background-color: rgba(0, 0, 0, 0.75); 
     color: #fff;
     font-size: 0.68em;
@@ -345,16 +329,15 @@ body {
     overflow: hidden;
     z-index: 1;
 }
-.item-slot.development-area .item-slot-label-small .progress-text { /* Текст прогресса в подписи */
+.item-slot.development-area .item-slot-label-small .progress-text {
     display: block; 
     font-size: 0.95em; 
     color: #b0b0b0; 
     font-weight: normal;
 }
 
-/* Шкала прогресса для областей развития (под слотом иконки) */
 .dev-progress-bar-container {
-    width: 100%; /* Занимает всю ширину обертки development-area-wrapper */
+    width: 100%; 
     height: 20px; 
     background-color: #222;
     border: 1px solid #666; 
@@ -373,13 +356,10 @@ body {
 }
 .dev-progress-bar-text {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; align-items: center;
     font-size: 0.75em; 
     color: #fff;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
@@ -387,16 +367,14 @@ body {
     z-index: 1;
 }
 
-/* Выделение выбранных слотов */
 .item-slot.selected,
 .advisor-portrait-slot.selected,
 .constitutional-principle.selected,
-.development-area.selected, /* класс .selected теперь можно применять и к .item-slot.development-area */
+.development-area.selected,
 .corporation-slot.selected {
     border-color: #bbb;
     box-shadow: 0 0 6px #ddd;
 }
-
 
 /* --- Тултипы --- */
 .tooltip {
@@ -427,9 +405,7 @@ body {
 }
 .modal-close-button:hover, .modal-close-button:focus { color: #fff; text-decoration: none; }
 
-.balance-modal-content { 
-    max-width: 450px;
-}
+.balance-modal-content { max-width: 450px; }
 .balance-scale-container { display: flex; align-items: center; justify-content: space-between; margin: 20px 0; }
 .scale-icon { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
 .balance-scale { flex-grow: 1; margin: 0 10px; }
@@ -446,131 +422,30 @@ body {
 #balanceValueDisplay { font-weight: bold; color: #ffd700; }
 #balanceValueInput { width: 60px; margin-left:5px; background-color: #555; color: white; border: 1px solid #777; padding: 5px; }
 
-/* Модальное окно Национального Фокуса */
-.focus-modal-content {
-    max-width: 800px;
-    text-align: left;
-}
-.focus-modal-content h4 {
-    text-align: center; margin-top: 0; margin-bottom: 15px;
-    font-size: 1.3em; color: #ffd700;
-}
-.focus-modal-image-container {
-    width: 100%; max-height: 50vh; display: flex;
-    justify-content: center; align-items: center; margin-bottom: 15px;
-    background-color: #222; border-radius: 4px; overflow: hidden;
-}
-#focusModalImage {
-    max-width: 100%; max-height: 100%; object-fit: contain;
-    display: block; border-radius: 3px;
-}
-.focus-modal-projects-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start; 
-    gap: 12px; 
-    padding: 15px 5px; 
-    margin-bottom: 15px; 
-    border-top: 1px solid #555; 
-    border-bottom: 1px solid #555; 
-    background-color: rgba(34, 34, 34, 0.5); 
-    min-height: 80px; 
-}
-.focus-project-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: help; 
-    text-align: center;
-}
-.focus-project-icon {
-    width: 90px; 
-    height: 90px; 
-    min-width: 90px; 
-    background-color: #383838;
-    border: 1px solid #5c5c5c;
-    border-radius: 4px;
-    margin-bottom: 6px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-.focus-project-icon img {
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
-    display: block;
-}
-.focus-project-progress-bar-container {
-    width: 90px; 
-    height: 16px; 
-    background-color: #2a2a2a;
-    border: 1px solid #4a4a4a;
-    border-radius: 3px;
-    overflow: hidden;
-    position: relative; 
-}
-.focus-project-progress-bar-fill {
-    height: 100%;
-    background-color: #3a7c4a; 
-    transition: width 0.3s ease-in-out;
-    border-radius: 2px; 
-}
-.focus-project-progress-bar-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.7em; 
-    color: #fff;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.7);
-    font-weight: bold;
-    z-index: 1; 
-}
-.focus-modal-description {
-    font-size: 0.95em; line-height: 1.6; color: #e0e0e0;
-    white-space: pre-line; max-height: 20vh;  overflow-y: auto;
-    padding: 10px 5px; border-top: 1px solid #444; margin-top: 0; 
-}
+.focus-modal-content { max-width: 800px; text-align: left; }
+.focus-modal-content h4 { text-align: center; margin-top: 0; margin-bottom: 15px; font-size: 1.3em; color: #ffd700; }
+.focus-modal-image-container { width: 100%; max-height: 50vh; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; background-color: #222; border-radius: 4px; overflow: hidden; }
+#focusModalImage { max-width: 100%; max-height: 100%; object-fit: contain; display: block; border-radius: 3px; }
+.focus-modal-projects-container { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 12px; padding: 15px 5px; margin-bottom: 15px; border-top: 1px solid #555; border-bottom: 1px solid #555; background-color: rgba(34, 34, 34, 0.5); min-height: 80px; }
+.focus-project-item { display: flex; flex-direction: column; align-items: center; cursor: help; text-align: center; }
+.focus-project-icon { width: 90px; height: 90px; min-width: 90px; background-color: #383838; border: 1px solid #5c5c5c; border-radius: 4px; margin-bottom: 6px; display: flex; justify-content: center; align-items: center; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+.focus-project-icon img { width: 90%; height: 90%; object-fit: contain; display: block; }
+.focus-project-progress-bar-container { width: 90px; height: 16px; background-color: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 3px; overflow: hidden; position: relative; }
+.focus-project-progress-bar-fill { height: 100%; background-color: #3a7c4a; transition: width 0.3s ease-in-out; border-radius: 2px; }
+.focus-project-progress-bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; font-size: 0.7em; color: #fff; text-shadow: 1px 1px 1px rgba(0,0,0,0.7); font-weight: bold; z-index: 1; }
+.focus-modal-description { font-size: 0.95em; line-height: 1.6; color: #e0e0e0; white-space: pre-line; max-height: 20vh; overflow-y: auto; padding: 10px 5px; border-top: 1px solid #444; margin-top: 0; }
 
-/* --- Боковая Панель --- */
-.side-panel {
-    display: none; position: fixed; top: 50px;
-    right: 20px; width: 380px; max-height: calc(100vh - 70px);
-    background-color: #2a2a2a; border: 2px solid #555;
-    box-shadow: -3px 0 10px rgba(0,0,0,0.4); z-index: 1002;
-    display: flex; flex-direction: column; color: #e0e0e0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.side-panel-header {
-    background-color: #222222; padding: 10px 15px; display: flex;
-    justify-content: space-between; align-items: center; border-bottom: 1px solid #4a4a4a;
-}
+.side-panel { display: none; position: fixed; top: 50px; right: 20px; width: 380px; max-height: calc(100vh - 70px); background-color: #2a2a2a; border: 2px solid #555; box-shadow: -3px 0 10px rgba(0,0,0,0.4); z-index: 1002; display: flex; flex-direction: column; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.side-panel-header { background-color: #222222; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #4a4a4a; }
 .side-panel-header h4 { margin: 0; font-size: 1.1em; font-weight: bold; }
 .side-panel-close-button { font-size: 24px; font-weight: bold; color: #aaa; cursor: pointer; padding: 0 5px; }
 .side-panel-close-button:hover { color: #fff; }
 .side-panel-content { padding: 10px; overflow-y: auto; flex-grow: 1; }
-.side-panel-option {
-    display: flex; align-items: center; padding: 12px 10px; margin-bottom: 6px;
-    background-color: #383838; border: 1px solid #4c4c4c; border-radius: 3px;
-    cursor: pointer; transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-}
+.side-panel-option { display: flex; align-items: center; padding: 12px 10px; margin-bottom: 6px; background-color: #383838; border: 1px solid #4c4c4c; border-radius: 3px; cursor: pointer; transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; }
 .side-panel-option:hover { background-color: #484848; border-color: #666; }
 .side-panel-option.active { background-color: #4a6b3a; border-color: #6a8b5a; }
-.side-panel-option-icon {
-    width: 40px; height: 40px; min-width: 40px; margin-right: 12px;
-    object-fit: fill; /* Для иконок в боковой панели, если нужно полное заполнение (может искажать) */
-    border-radius: 3px; 
-    display: block;
-}
+.side-panel-option-icon { width: 40px; height: 40px; min-width: 40px; margin-right: 12px; object-fit: fill; border-radius: 3px; display: block; }
 .side-panel-option-name { flex-grow: 1; font-size: 0.95em; line-height: 1.3; }
-
 
 /* --- Адаптивные стили --- */
 @media (max-width: 992px) {
@@ -580,144 +455,85 @@ body {
     .leader-pane { margin-right: 0; margin-bottom: 20px; flex-basis: auto; width: 90%; max-width: 400px; }
     .national-info-pane { width: 100%; }
 
-    /* Общая ширина для разных типов слотов на планшетах (5 в ряд) */
     .advisor-portrait-slot,
     .development-area-wrapper,
-    .corporation-slot,
-    .constitutional-principle { /* Если нужно такое же поведение */
+    .corporation-slot, /* Добавлено */
+    .constitutional-principle { /* Добавлено */
         width: calc((100% - 4 * 10px) / 5);
     }
     
-    .corporation-slot,
-    .constitutional-principle { /* Квадратные или как были, если они не адаптивные по высоте */
-         height: auto; /* Позволит padding-bottom определять высоту, если для них тоже задать */
-         padding-bottom: 100%; /* Для квадратных, если они тоже адаптивные. Или оставить фиксированные height/width. */
-                               /* Если они фиксированные, то их width/height должны быть установлены явно тут */
-    }
-    /* Для .item-slot, если он еще используется, также надо определить поведение */
-     .item-slot { 
-        width: calc((100% - 4 * 10px) / 5); 
-        padding-bottom: 100%; /* Для квадратности */
+    .item-slot, /* если он универсальный и квадратный */
+    .corporation-slot, 
+    .constitutional-principle {
+        height: 0; /* Если делаем их адаптивно-квадратными */
+        padding-bottom: 100%; /* Для квадратных слотов */
     }
 
-
-    /* min-height убран, так как высота определяется через padding-bottom */
-        
     .item-slot-label-small { font-size: 0.65em; padding: 3px 2px;}
-
     .political-details { gap: 8px; }
     .pie-chart { width: 100px; height: 100px;}
     #partyPieChartCanvas { width: 100px; height: 100px; }
     .party-list { font-size: 0.78em; }
-
     .focus-modal-content { max-width: 90%; padding: 20px; }
     .modal-content { max-width: 90%; }
-
     .focus-modal-projects-container { gap: 10px; padding: 10px 2px; }
-    .focus-project-icon { 
-        width: 90px; height: 90px; min-width: 90px;
-    }
-    .focus-project-progress-bar-container { 
-        width: 90px;
-        height: 12px; 
-    }
-     .focus-project-progress-bar-text {
-        font-size: 0.65em;
-    }
+    .focus-project-icon { width: 90px; height: 90px; min-width: 90px; }
+    .focus-project-progress-bar-container { width: 90px; height: 12px; }
+    .focus-project-progress-bar-text { font-size: 0.65em; }
 }
 
 @media (max-width: 576px) {
     body { padding: 5px; }
     .main-content { padding: 5px; }
     .window-title-bar { padding: 8px 10px; font-size: 1.1em; }
-
     .upper-section { padding-bottom: 15px; margin-bottom: 10px; }
     .leader-pane { max-width: 100%; flex-basis: auto; }
     .leader-portrait { width: 120px; height: 160px; }
     .ideology-icon, .party-emblem { width: 50px; height: 50px; min-width: 50px;}
-
     .national-focus-banner { height: 80px; }
     .focus-title-bar { font-size: 0.9em; width: 150px; }
     .national-spirits { gap: 4px; padding: 5px; min-height: 30px; justify-content: center; }
     .spirit-icon { width: 32px; height: 32px; }
-
     .political-details { flex-direction: column; gap: 10px; }
     .ruling-party-info, .political-system-info-container, .party-popularity { flex-basis: auto; width: 100%; }
     .party-popularity { flex-direction: column; align-items: stretch; }
     .pie-chart { width: 90px; height: 90px; margin-right: 0; margin-bottom: 10px; align-self: center;}
     #partyPieChartCanvas { width: 90px; height: 90px; }
     .party-list { max-height: 90px; }
-
     .lower-section { padding-right: 0; max-height: none; overflow-y:visible;}
     .category-items { padding: 8px; gap: 8px; justify-content: space-around; }
     
-    /* Общая ширина для разных типов слотов на мобильных (3 в ряд) */
     .advisor-portrait-slot,
     .development-area-wrapper,
-    .corporation-slot,
+    .item-slot, /* если универсальный */
+    .corporation-slot, 
     .constitutional-principle {
-         width: calc((100% - 2 * 8px) / 3 - 4px); /* (100% - (кол-во_промежутков * gap)) / кол-во_элементов */
-    }
-    .item-slot { /* Если используется */
-        width: calc((100% - 2 * 8px) / 3 - 4px); 
-        padding-bottom: 100%; /* Для квадратности */
+         width: calc((100% - 2 * 8px) / 3 - 4px); 
     }
     
-    .corporation-slot,
+    .item-slot,
+    .corporation-slot, 
     .constitutional-principle { /* Если эти слоты квадратные */
-         height: 0; /* Или auto если используется padding-bottom */
-         padding-bottom: 100%; /* Для квадратных слотов */
+         height: 0;
+         padding-bottom: 100%; 
     }
-    /* Для .item-slot.development-area img делаем небольшой padding, чтобы иконка не касалась краев */
-    .item-slot.development-area img {
-        padding: 3px; 
-    }
-            
-    .item-slot-label-small { 
-        font-size: 0.6em; 
-        line-height: 1.2;
-        padding: 2px 2px; 
-         -webkit-line-clamp: 2; /* Убедимся, что все еще 2 строки */
-    }
-        
-    .dev-progress-bar-container { 
-        height: 12px; 
-        margin-top: 0px; 
-    }
-    .dev-progress-bar-text { 
-        font-size: 0.65em; 
-    }
-
+    .item-slot.development-area img { padding: 3px; }
+    .item-slot-label-small { font-size: 0.6em; line-height: 1.2; padding: 2px 2px; -webkit-line-clamp: 2; }
+    .dev-progress-bar-container { height: 12px; margin-top: 0px; }
+    .dev-progress-bar-text { font-size: 0.65em; }
     .side-panel { width: 96%; left: 2%; right: 2%; top: 5px; max-height: calc(100vh - 10px); font-size: 0.9em;}
     .side-panel-header { padding: 8px 10px; }
     .side-panel-header h4 { font-size: 1em; }
     .side-panel-option { padding: 8px; margin-bottom: 4px; }
-    .side-panel-option-icon { 
-        width: 30px; height: 30px; min-width: 30px; margin-right: 8px;
-    }
+    .side-panel-option-icon { width: 30px; height: 30px; min-width: 30px; margin-right: 8px;}
     .side-panel-option-name { font-size: 0.9em; }
-
     .tooltip { font-size: 0.8em; max-width: 90vw; padding: 8px 10px; }
-
     .focus-modal-content { max-width: 95%; padding: 15px; }
     .focus-modal-content h4 { font-size: 1.1em; }
     .focus-modal-image-container { max-height: 35vh; }
-    .focus-modal-projects-container { 
-        gap: 8px; 
-        padding: 8px 0px;
-        justify-content: space-around; 
-    }
-    .focus-project-icon { 
-        width: 75px; 
-        height: 75px; 
-        min-width: 75px;
-    }
-    .focus-project-progress-bar-container { 
-        width: 75px; 
-        height: 10px; 
-    }
-     .focus-project-progress-bar-text {
-        font-size: 0.6em;
-    }
+    .focus-modal-projects-container { gap: 8px; padding: 8px 0px; justify-content: space-around; }
+    .focus-project-icon { width: 75px; height: 75px; min-width: 75px; }
+    .focus-project-progress-bar-container { width: 75px; height: 10px; }
+    .focus-project-progress-bar-text { font-size: 0.6em; }
     .focus-modal-description { font-size: 0.9em; max-height: 25vh; }
 }
