@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Демонстрация Политики</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="hoi4-politics-screen">
+    <div class="window-title-bar">
+        <span>Политика</span>
+        <span class="close-button" onclick="alert('Окно закрыто (симуляция)')">X</span>
+    </div>
+
+    <div class="main-content">
+        <div class="upper-section">
+            <div class="leader-pane">
+                <div class="leader-portrait">
+                    <img src="https://via.placeholder.com/156x210/555/fff?text=Leader" alt="Лидер Страны">
+                </div>
+                <div class="leader-name">Имя Лидера</div>
+                <div class="ideology-info">
+                    <div class="ideology-icon" data-slot-type="ideology_display">
+                        <img src="https://via.placeholder.com/65x65/555/fff?text=IDL" alt="Ideology Icon">
+                    </div>
+                    <div class="ideology-name">Идеологическая идеология</div>
+                </div>
+                <div class="party-emblem" data-slot-type="party_display">
+                    <img src="https://via.placeholder.com/65x65/555/fff?text=PTY" alt="Party Emblem">
+                </div>
+            </div>
+
+            <div class="national-info-pane">
+                <!-- ИЗМЕНЕННЫЙ БЛОК НАЦИОНАЛЬНОГО ФОКУСА -->
+                <div class="national-focus-banner" id="nationalFocusBannerClickable" data-tooltip="Текущая краткая сводка
+Нажмите для деталей...">
+                    <img src="history/turn_images/Autumn2003.png" alt="Национальный Фокус" class="focus-bg" id="mainFocusBannerImage">
+                    <div class="focus-title-bar" id="mainFocusTitle">Осень 2003 - Ход 23</div>
+                    <div class="focus-progress-bar">
+                        <div class="focus-progress" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <!-- КОНЕЦ ИЗМЕНЕННОГО БЛОКА НАЦИОНАЛЬНОГО ФОКУСА -->
+
+                <div class="national-spirits">
+                    <!-- Динамически из JS -->
+                </div>
+                <div class="political-details">
+                    <div class="ruling-party-info">
+                        <strong>Загрузка...</strong><br>
+                        <small>Следующие выборы в ГД: 07/12/2003<br>Следующие президентские выборы: 14/03/2004</small>
+                    </div>
+
+                    <div class="political-system-info-container">
+                        <div class="pol-sys-upper">
+                            <div class="pol-sys-icon-wrapper">
+                                <img src="history/parties_emblems/democracy.png" alt="Полит. Система" class="flag">
+                            </div>
+                            <div class="pol-sys-text-wrapper">
+                                Российск.<br>Политическая<br>Система
+                            </div>
+                        </div>
+                        <button id="balanceButton" class="balance-btn">Баланс</button>
+                    </div>
+
+                    <div class="party-popularity">
+                        <div class="pie-chart" id="politicalPieChart" data-tooltip="Диаграмма популярности партий">
+                            <canvas id="partyPieChartCanvas" width="110" height="110"></canvas>
+                        </div>
+                        <ul class="party-list" id="partyListContainer">
+                            <!-- Динамически из JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lower-section">
+            <!-- Правительство -->
+            <div class="category-block">
+                <div class="category-header">
+                    <img src="https://via.placeholder.com/20/fff/000?text=G" alt="gov" class="category-header-icon">
+                    Правительство
+                </div>
+                <div class="category-items" id="government-advisors-container">
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_prime_minister" data-current-id="kasyanov_mikhail" data-slot-title="Председатель Правительства"><img src="https://via.placeholder.com/80x95/333/666?text=ПМ" alt="ПМ"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_foreign_affairs" data-current-id="ivanov_igor_s" data-slot-title="Министр иностранных дел"><img src="https://via.placeholder.com/80x95/333/666?text=МИД" alt="МИД"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_finance" data-current-id="kudrin_alexey" data-slot-title="Министр финансов"><img src="https://via.placeholder.com/80x95/333/666?text=МФ" alt="МФ"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_defense" data-current-id="ivanov_sergey_b" data-slot-title="Министр обороны"><img src="https://via.placeholder.com/80x95/333/666?text=МО" alt="МО"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_internal_affairs" data-current-id="gryzlov_boris" data-slot-title="Министр внутренних дел"><img src="https://via.placeholder.com/80x95/333/666?text=МВД" alt="МВД"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_fsb_director" data-current-id="kovalev_oleg" data-slot-title="Директор ФСБ"><img src="https://via.placeholder.com/80x95/333/666?text=ФСБ" alt="ФСБ"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_svr_director" data-current-id="lebedev_sergey_n" data-slot-title="Директор СВР"><img src="https://via.placeholder.com/80x95/333/666?text=СВР" alt="СВР"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_justice" data-current-id="chaika_yuri" data-slot-title="Министр юстиции"><img src="https://via.placeholder.com/80x95/333/666?text=МЮ" alt="МЮ"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_economic_development" data-current-id="gref_german" data-slot-title="Министр эконом. развития"><img src="https://via.placeholder.com/80x95/333/666?text=МЭР" alt="МЭР"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_industry_trade" data-current-id="klebanov_ilya" data-slot-title="Министр пром. и торговли"><img src="https://via.placeholder.com/80x95/333/666?text=МПТ" alt="МПТ"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_energy" data-current-id="yusufov_igor" data-slot-title="Министр энергетики"><img src="https://via.placeholder.com/80x95/333/666?text=МЭн" alt="МЭн"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_health" data-current-id="shevchenko_yuri_l" data-slot-title="Министр здравоохранения"><img src="https://via.placeholder.com/80x95/333/666?text=МЗ" alt="МЗ"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_labor_social" data-current-id="pochinok_alexander" data-slot-title="Министр труда и соц."><img src="https://via.placeholder.com/80x95/333/666?text=МТр" alt="МТр"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_education" data-current-id="filippov_vladimir_m" data-slot-title="Министр просвещения"><img src="https://via.placeholder.com/80x95/333/666?text=МПр" alt="МПр"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_culture" data-current-id="shvydkoy_mikhail" data-slot-title="Министр культуры"><img src="https://via.placeholder.com/80x95/333/666?text=МК" alt="МК"></div>
+                    <div class="advisor-portrait-slot" data-slot-type="advisor_digital_media" data-current-id="lesin_mikhail_y" data-slot-title="Министр цифр. развития"><img src="https://via.placeholder.com/80x95/333/666?text=МЦ" alt="МЦ"></div>
+                </div>
+            </div>
+
+            <div class="category-block">
+                <div class="category-header">
+                    <img src="https://via.placeholder.com/20/fff/000?text=C" alt="const" class="category-header-icon">
+                    Конституционные Основы
+                </div>
+                <div class="category-items" id="constitutional-principles-container">
+                    <!-- Динамически из JS -->
+                </div>
+            </div>
+
+            <div class="category-block">
+                <div class="category-header">
+                    <img src="https://via.placeholder.com/20/fff/000?text=D" alt="dev" class="category-header-icon">
+                    Развитие Страны
+                </div>
+                <div class="category-items" id="development-areas-container">
+                    <!-- Динамически из JS -->
+                </div>
+            </div>
+
+            <div class="category-block">
+                <div class="category-header">
+                    <img src="https://via.placeholder.com/20/fff/000?text=Corp" alt="corp" class="category-header-icon">
+                    Корпорации и ОПК
+                </div>
+                <div class="category-items" id="corporations-container">
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_1" data-current-id="gazprom" data-slot-title="Нефтегаз 1"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_2" data-current-id="lukoil" data-slot-title="Нефтегаз 2"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_3" data-current-id="yukos" data-slot-title="Нефтегаз 3"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_4" data-current-id="surgutneftegaz" data-slot-title="Нефтегаз 4"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_5" data-current-id="rao_ees" data-slot-title="Энергетика/Металл 1"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_6" data-current-id="norilsk_nickel" data-slot-title="Энергетика/Металл 2"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_7" data-current-id="rusal" data-slot-title="Энергетика/Металл 3"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_8" data-current-id="severstal" data-slot-title="Энергетика/Металл 4"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_9" data-current-id="avtovaz" data-slot-title="ОПК/Маш 1"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_10" data-current-id="rostech_concept" data-slot-title="ОПК/Маш 2 (Ростех)"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_11" data-current-id="rosoboronprom_concept" data-slot-title="ОПК/Маш 3 (РосОборонПром)"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_12" data-current-id="rosoboronexport" data-slot-title="ОПК/Маш 4"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_13" data-current-id="sberbank" data-slot-title="Финансы 1"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_14" data-current-id="alpha_bank" data-slot-title="Финансы 2"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_15" data-current-id="vtb" data-slot-title="Финансы 3"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_16" data-current-id="ingosstrakh" data-slot-title="Финансы 4"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_17" data-current-id="mts" data-slot-title="Связь/Медиа 1"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_18" data-current-id="vympelcom" data-slot-title="Связь/Медиа 2"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_19" data-current-id="svyazinvest" data-slot-title="Связь/Медиа 3"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_20" data-current-id="channel_one_ort" data-slot-title="Связь/Медиа 4"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_21" data-current-id="rzd_oao" data-slot-title="Транспорт/Потреб. 1"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_22" data-current-id="aeroflot" data-slot-title="Транспорт/Потреб. 2"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_23" data-current-id="magnit" data-slot-title="Транспорт/Потреб. 3"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                    <div class="item-slot corporation-slot" data-slot-type="corporation_slot_24" data-current-id="wimm_bill_dann" data-slot-title="Транспорт/Потреб. 4"><img src="https://via.placeholder.com/80/333/666?text=+" alt="+"><span class="item-slot-label-small"></span></div>
+                </div>
+            </div>
+        </div> <!-- /lower-section -->
+    </div> <!-- /main-content -->
+</div> <!-- /hoi4-politics-screen -->
+
+<!-- Модальное окно для Национального Фокуса (из предыдущего ответа) -->
+<div id="nationalFocusModal" class="modal">
+    <div class="modal-content focus-modal-content">
+        <span class="modal-close-button" id="closeFocusModalBtn">×</span>
+        <h4 id="focusModalTitle">Название Национального Фокуса</h4>
+        <div class="focus-modal-image-container">
+            <img src="" alt="Национальный фокус (полное изображение)" id="focusModalImage">
+        </div>
+        <div class="focus-modal-description" id="focusModalDescription">
+            Заглушка: Здесь будет подробное описание для национального фокуса.
+        </div>
+    </div>
+</div>
+
+<div class="tooltip" style="display: none;"></div>
+
+<!-- Balance Modal -->
+<div id="balanceModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close-button" id="closeBalanceModalBtn_Balance">×</span> <!-- ID кнопки изменен во избежание конфликта -->
+        <h4>Баланс Сил</h4>
+<div class="balance-scale-container">
+                <img src="history/icons/Lunar.png" alt="Луна" class="scale-icon moon-icon">
+                <div class="balance-scale">
+                    <div class="scale-track">
+                        <div class="scale-marker" id="balanceMarker"></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>-50</span>
+                        <span>0</span>
+                        <span>+50</span>
+                    </div>
+                </div>
+                <img src="history/icons/Solar.png" alt="Солнце" class="scale-icon sun-icon">
+            </div>
+        <p>Текущее значение: <span id="balanceValueDisplay">6</span></p>
+        <button onclick="updateBalanceScale(document.getElementById('balanceValueInput').valueAsNumber)" style="margin-top:10px; padding:5px;">Установить</button>
+        <input type="number" id="balanceValueInput" value="0" min="-50" max="50" style="width: 60px; margin-left:5px;">
+    </div>
+</div>
+
+<!-- Side Panel (for selection) -->
+<div id="selectionSidePanel" class="side-panel">
+    <div class="side-panel-header">
+        <h4 id="sidePanelTitle">Выберите Опцию</h4>
+        <span class="side-panel-close-button" id="closeSidePanelBtn_SP">×</span>
+    </div>
+    <div class="side-panel-content" id="sidePanelOptionsContainer">
+        <!-- Динамически из JS -->
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
