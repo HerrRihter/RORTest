@@ -254,8 +254,7 @@ body {
 /* --- Стили для СОВЕТНИКОВ (ADVISORS) --- */
 .advisor-portrait-slot {
     width: 156px; 
-    height: 0;
-    padding-bottom: 234px;
+    height: 234px;
     position: relative;
     background-color: #3a3a3a;
     background-image: url('history/portraits_background/empty_advisor_bg.png');
@@ -288,7 +287,7 @@ body {
 }
 .item-slot.development-area { 
     width: 132px; 
-    height: 198px;
+    height: 150%;
     position: relative;
     background-color: #3a3a3a;
     background-image: url('history/portraits_background/empty_advisor_bg.png');
@@ -454,19 +453,16 @@ body {
     .leader-pane { margin-right: 0; margin-bottom: 20px; flex-basis: auto; width: 90%; max-width: 400px; }
     .national-info-pane { width: 100%; }
 
-    .advisor-portrait-slot,
-    .development-area-wrapper,
-    .corporation-slot, /* Добавлено */
-    .constitutional-principle { /* Добавлено */
-        width: calc((100% - 4 * 10px) / 5);
+    .advisor-portrait-slot {
+         width: 156px;
     }
     
-    .item-slot, /* если он универсальный и квадратный */
-    .corporation-slot, 
-    .constitutional-principle {
-        height: 0; /* Если делаем их адаптивно-квадратными */
-        padding-bottom: 100%; /* Для квадратных слотов */
+    .corporation-slot {
+         width: 132x;
+         height: ;
     }
+    
+
 
     .item-slot-label-small { font-size: 0.65em; padding: 3px 2px;}
     .political-details { gap: 8px; }
@@ -502,20 +498,12 @@ body {
     .lower-section { padding-right: 0; max-height: none; overflow-y:visible;}
     .category-items { padding: 8px; gap: 8px; justify-content: space-around; }
     
-    .advisor-portrait-slot,
-    .development-area-wrapper,
-    .item-slot, /* если универсальный */
-    .corporation-slot, 
-    .constitutional-principle {
-         width: calc((100% - 2 * 8px) / 3 - 4px); 
+    .advisor-portrait-slot
+    {
+         width: 156px; 
     }
     
-    .item-slot,
-    .corporation-slot, 
-    .constitutional-principle { /* Если эти слоты квадратные */
-         height: 0;
-         padding-bottom: 100%; 
-    }
+
     .item-slot.development-area img { padding: 0; }
     .item-slot-label-small { font-size: 0.6em; line-height: 1.2; padding: 2px 2px; -webkit-line-clamp: 2; }
     .dev-progress-bar-container { height: 12px; margin-top: 0px; }
