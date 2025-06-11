@@ -253,9 +253,9 @@ body {
 
 /* --- Стили для СОВЕТНИКОВ (ADVISORS) --- */
 .advisor-portrait-slot {
-    width: 132px; 
+    width: 156px; 
     height: 0;
-    padding-bottom: 148%; /* (234 / 158) * 100%, добавил знаков после запятой для точности */
+    padding-bottom: 234px;
     position: relative;
     background-color: #3a3a3a;
     background-image: url('history/portraits_background/empty_advisor_bg.png');
@@ -287,9 +287,9 @@ body {
     align-self: flex-start; /* Тоже может быть полезно, чтобы высота не растягивалась из-за других элементов в ряду*/
 }
 .item-slot.development-area { 
-    width: 100%; 
+    width: 132px; 
     height: 0;
-    padding-bottom: 150%; /* (198 / 132) * 100% */
+    padding-bottom: 198px; /* (198 / 132) * 100% */
     position: relative;
     background-color: #3a3a3a;
     background-image: url('history/portraits_background/empty_advisor_bg.png');
@@ -517,7 +517,7 @@ body {
          height: 0;
          padding-bottom: 100%; 
     }
-    .item-slot.development-area img { padding: 3px; }
+    .item-slot.development-area img { padding: 0; }
     .item-slot-label-small { font-size: 0.6em; line-height: 1.2; padding: 2px 2px; -webkit-line-clamp: 2; }
     .dev-progress-bar-container { height: 12px; margin-top: 0px; }
     .dev-progress-bar-text { font-size: 0.65em; }
