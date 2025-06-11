@@ -467,7 +467,7 @@ body {
     font-size: 1.3em; color: #ffd700;
 }
 .focus-modal-image-container {
-    width: 100%; max-height: 50vh; /* Уменьшил немного для проектов */ display: flex;
+    width: 100%; max-height: 50vh; display: flex;
     justify-content: center; align-items: center; margin-bottom: 15px;
     background-color: #222; border-radius: 4px; overflow: hidden;
 }
@@ -475,35 +475,36 @@ body {
     max-width: 100%; max-height: 100%; object-fit: contain;
     display: block; border-radius: 3px;
 }
-/* Стили для блока проектов в модальном окне фокуса */
+
 .focus-modal-projects-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start; /* или center */
-    gap: 12px; /* Расстояние между проектами */
-    padding: 15px 5px; /* Отступы сверху/снизу и немного по бокам */
-    margin-bottom: 15px; /* Отступ до описания */
-    border-top: 1px solid #555; /* Линия сверху */
-    border-bottom: 1px solid #555; /* Линия снизу */
-    background-color: rgba(34, 34, 34, 0.5); /* Полупрозрачный фон */
-    min-height: 80px; /* Минимальная высота, чтобы контейнер был виден, если нет проектов */
+    justify-content: flex-start; 
+    gap: 12px; 
+    padding: 15px 5px; 
+    margin-bottom: 15px; 
+    border-top: 1px solid #555; 
+    border-bottom: 1px solid #555; 
+    background-color: rgba(34, 34, 34, 0.5); 
+    min-height: 80px; 
 }
 .focus-project-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 90px; /* Ширина одного элемента проекта */
-    cursor: help; /* Показываем, что можно навести для подсказки */
+    /* width будет определяться количеством элементов в ряду или адаптивными стилями,
+       но базовая ширина иконки задаст ему некоторую минимальную ширину */
+    cursor: help; 
     text-align: center;
 }
 .focus-project-icon {
-    width: 72px; /* Размер иконки проекта */
-    height: 72px;
-    min-width: 72px;
+    width: 90px; /* ИЗМЕНЕНО: Размер иконки проекта */
+    height: 90px; /* ИЗМЕНЕНО: Размер иконки проекта */
+    min-width: 90px; /* ИЗМЕНЕНО */
     background-color: #383838;
     border: 1px solid #5c5c5c;
     border-radius: 4px;
-    margin-bottom: 6px; /* Отступ до прогресс-бара */
+    margin-bottom: 6px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -517,35 +518,41 @@ body {
     display: block;
 }
 .focus-project-progress-bar-container {
-    width: 100%;
-    height: 14px; /* Высота прогресс-бара */
+    width: 90px; /* Сделаем ширину прогресс-бара равной иконке для аккуратности */
+    height: 16px; /* Немного увеличим высоту для текста */
     background-color: #2a2a2a;
     border: 1px solid #4a4a4a;
     border-radius: 3px;
     overflow: hidden;
-    position: relative; /* Для текста поверх, если нужен будет */
+    position: relative; 
 }
 .focus-project-progress-bar-fill {
     height: 100%;
-    background-color: #3a7c4a; /* Зеленый цвет для прогресса */
+    background-color: #3a7c4a; 
     transition: width 0.3s ease-in-out;
-    border-radius: 2px; /* Небольшое скругление для самой полосы */
+    border-radius: 2px; 
 }
-/* Если нужен будет текст на прогресс-баре проекта (по аналогии с областями развития) */
-/*
+/* ДОБАВЛЕНО: Стили для текста на прогресс-баре проекта */
 .focus-project-progress-bar-text {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    display: flex; justify-content: center; align-items: center;
-    font-size: 0.7em; color: #fff;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7em; /* Чуть меньше чем у областей развития */
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.7);
+    font-weight: bold;
+    z-index: 1; /* Чтобы текст был поверх полосы прогресса */
 }
-*/
 
 .focus-modal-description {
     font-size: 0.95em; line-height: 1.6; color: #e0e0e0;
-    white-space: pre-line; max-height: 20vh; /* Уменьшил немного из-за проектов */ overflow-y: auto;
-    padding: 10px 5px; border-top: 1px solid #444; margin-top: 0; /* Убрал верхний отступ, т.к. есть разделитель у проектов */
+    white-space: pre-line; max-height: 20vh;  overflow-y: auto;
+    padding: 10px 5px; border-top: 1px solid #444; margin-top: 0; 
 }
 
 
@@ -621,9 +628,22 @@ body {
     .modal-content { max-width: 90%; }
 
     .focus-modal-projects-container { gap: 10px; padding: 10px 2px; }
-    .focus-project-item { width: 80px; }
-    .focus-project-icon { width: 60px; height: 60px; min-width: 60px; margin-bottom: 4px;}
-    .focus-project-progress-bar-container { height: 10px; }
+    /* .focus-project-item остается с базовой шириной иконки 90px, 
+       но будет переноситься из-за flex-wrap */
+    .focus-project-icon { 
+        /* Размеры 90x90 остаются, если влезают. 
+           Можно добавить max-width: calc((100% - X*gap) / Y - 2*border) для адаптивности,
+           но это усложнит, если много иконок. 
+           Для примера, если мы хотим не более 5-6 иконок в ряд на 992px: */
+        /* max-width: 80px; max-height: 80px; */
+    }
+    .focus-project-progress-bar-container { 
+        width: 100%; /* подстраивается под ширину .focus-project-icon */
+        height: 12px; 
+    }
+     .focus-project-progress-bar-text {
+        font-size: 0.65em;
+    }
 }
 
 @media (max-width: 576px) {
@@ -718,10 +738,28 @@ body {
 
     .focus-modal-content { max-width: 95%; padding: 15px; }
     .focus-modal-content h4 { font-size: 1.1em; }
-    .focus-modal-image-container { max-height: 35vh; } /* Еще уменьшил для мобильных */
-    .focus-modal-projects-container { gap: 8px; padding: 8px 0px;}
-    .focus-project-item { width: calc((100% - 3 * 8px) / 4); /* 4 иконки в ряд */ } /* Динамически подстраиваем */
-    .focus-project-icon { width: 50px; height: 50px; min-width: 50px;}
-    .focus-project-progress-bar-container { height: 8px; }
+    .focus-modal-image-container { max-height: 35vh; }
+    .focus-modal-projects-container { 
+        gap: 8px; 
+        padding: 8px 0px;
+        /* Можно попробовать разместить 3-4 иконки в ряд */
+        justify-content: space-around; /* Для лучшего распределения при малом количестве */
+    }
+    .focus-project-item { 
+        /* Ширина будет зависеть от flex-wrap и gap, 
+           но мы хотим, чтобы сама иконка была базой */
+    }
+    .focus-project-icon { 
+        width: 60px; /* Уменьшаем иконки для мобильных, чтобы больше влезло */
+        height: 60px; 
+        min-width: 60px;
+    }
+    .focus-project-progress-bar-container { 
+        width: 60px; /* Соответствует иконке */
+        height: 10px; 
+    }
+     .focus-project-progress-bar-text {
+        font-size: 0.6em;
+    }
     .focus-modal-description { font-size: 0.9em; max-height: 25vh; }
 }

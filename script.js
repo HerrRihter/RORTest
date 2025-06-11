@@ -117,7 +117,7 @@ const GAME_DATA = {
     ideologies: {}, 
     parties: {}, 
     national_spirits: {},
-    currentNationalFocus: null // Для хранения данных о текущем нац. фокусе
+    currentNationalFocus: null 
 };
 const ALL_DATA_FILES_TO_LOAD = [
     "history/leaders.json",
@@ -127,7 +127,7 @@ const ALL_DATA_FILES_TO_LOAD = [
     "history/ideologies.json",
     "history/parties.json",
     "history/national_spirits.json",
-    "history/national_focus_data.json" // Добавляем новый файл для загрузки
+    "history/national_focus_data.json"
 ];
 
 async function loadJsonFile(filePath) {
@@ -153,7 +153,7 @@ async function initializeGameData() {
         }
         else if (filePath.endsWith('parties.json') && data.options) { GAME_DATA.parties_array = data.options; GAME_DATA.parties = {}; data.options.forEach(p => {if(p.id)GAME_DATA.parties[p.id] = p;}); }
         else if (filePath.endsWith('national_spirits.json') && data.options) { GAME_DATA.national_spirits = {}; data.options.forEach(s => {if(s.id)GAME_DATA.national_spirits[s.id] = s;}); }
-        else if (filePath.endsWith('national_focus_data.json') && data.current_focus) { // Загрузка данных о нац. фокусе
+        else if (filePath.endsWith('national_focus_data.json') && data.current_focus) { 
             GAME_DATA.currentNationalFocus = data.current_focus;
         }
     });
@@ -396,14 +396,13 @@ function initializeUI() {
         if(partyEmblemContainer.dataset.tooltip) partyEmblemContainer.removeAttribute('data-tooltip');
     }
     
-    // National Focus Banner (Main Page) - Updated to use JSON data
+    // National Focus Banner (Main Page)
     const mainFocusBannerImageEl = document.getElementById('mainFocusBannerImage');
-    const mainFocusTitleEl = document.getElementById('mainFocusTitle'); // Already exists
+    const mainFocusTitleEl = document.getElementById('mainFocusTitle'); 
     if (GAME_DATA.currentNationalFocus && mainFocusBannerImageEl && mainFocusTitleEl) {
         mainFocusBannerImageEl.src = GAME_DATA.currentNationalFocus.banner_image_path || 'https://via.placeholder.com/700x100/555/fff?text=Focus+Banner';
         mainFocusBannerImageEl.alt = GAME_DATA.currentNationalFocus.title || "Национальный Фокус";
         mainFocusTitleEl.textContent = GAME_DATA.currentNationalFocus.title || "Название Фокуса";
-        // Note: The progress bar for the main focus banner might still be hardcoded or needs its own data source if dynamic.
     }
 
 
@@ -576,12 +575,12 @@ const nationalFocusBannerClickable = document.getElementById('nationalFocusBanne
 const focusModalTitle = document.getElementById('focusModalTitle');
 const focusModalImage = document.getElementById('focusModalImage');
 const focusModalDescription = document.getElementById('focusModalDescription');
-const focusModalProjectsContainer = document.getElementById('focusModalProjectsContainer'); // Контейнер для проектов
+const focusModalProjectsContainer = document.getElementById('focusModalProjectsContainer'); 
 
 if (nationalFocusBannerClickable) {
     nationalFocusBannerClickable.style.cursor = 'pointer';
     nationalFocusBannerClickable.addEventListener('click', () => {
-        const focusData = GAME_DATA.currentNationalFocus; // Используем загруженные данные
+        const focusData = GAME_DATA.currentNationalFocus; 
 
         if (nationalFocusModal && focusModalTitle && focusModalImage && focusModalDescription && focusModalProjectsContainer && focusData) {
             focusModalTitle.textContent = focusData.title || "Национальный Фокус";
@@ -589,8 +588,7 @@ if (nationalFocusBannerClickable) {
             focusModalImage.alt = focusData.title || "Национальный фокус";
             focusModalDescription.textContent = focusData.description || "Описание не предоставлено.";
 
-            // Очищаем и заполняем контейнер проектов
-            focusModalProjectsContainer.innerHTML = ''; // Очистка предыдущих проектов
+            focusModalProjectsContainer.innerHTML = ''; 
             if (focusData.projects && focusData.projects.length > 0) {
                 focusData.projects.forEach(project => {
                     const projectItemEl = document.createElement('div');
@@ -599,24 +597,31 @@ if (nationalFocusBannerClickable) {
                     const iconWrapperEl = document.createElement('div');
                     iconWrapperEl.className = 'focus-project-icon';
                     const iconEl = document.createElement('img');
-                    iconEl.src = project.icon_path || 'https://via.placeholder.com/64/777/fff?text=P';
+                    iconEl.src = project.icon_path || 'https://via.placeholder.com/90/777/fff?text=P'; // Иконка по умолчанию 90x90
                     iconEl.alt = project.name?.substring(0,3) || "Proj";
                     iconWrapperEl.appendChild(iconEl);
 
                     const progressBarContainerEl = document.createElement('div');
                     progressBarContainerEl.className = 'focus-project-progress-bar-container';
+                    
                     const progressBarFillEl = document.createElement('div');
                     progressBarFillEl.className = 'focus-project-progress-bar-fill';
                     const progressPercentage = (project.current_progress / project.max_progress) * 100;
                     progressBarFillEl.style.width = `${Math.min(100, Math.max(0, progressPercentage))}%`;
+                    
+                    // ДОБАВЛЕНО: Текст на прогресс-баре
+                    const progressTextEl = document.createElement('span');
+                    progressTextEl.className = 'focus-project-progress-bar-text';
+                    progressTextEl.textContent = `${project.current_progress}/${project.max_progress}`;
+
                     progressBarContainerEl.appendChild(progressBarFillEl);
-                    // Можно добавить текст на прогресс-бар, если нужно, по аналогии с .dev-progress-bar-text
+                    progressBarContainerEl.appendChild(progressTextEl); // Добавляем текст ВНУТРЬ контейнера прогресс-бара
 
                     projectItemEl.appendChild(iconWrapperEl);
                     projectItemEl.appendChild(progressBarContainerEl);
 
                     addTooltipEventsToElement(
-                        projectItemEl, // Привязываем тултип ко всему элементу проекта
+                        projectItemEl, 
                         project.name,
                         project.tooltip_summary,
                         project.tooltip_description
@@ -642,16 +647,13 @@ window.addEventListener('click', function(event) {
     if (event.target == nationalFocusModal && nationalFocusModal) {
         nationalFocusModal.style.display = 'none';
     }
-     // Закрытие модального окна Баланса при клике вне его
     if (event.target == balanceModal && balanceModal) {
         balanceModal.style.display = 'none';
     }
-    // Закрытие боковой панели при клике вне её (если она открыта)
     if (selectionSidePanel && selectionSidePanel.style.display === 'flex' && 
         !selectionSidePanel.contains(event.target) && 
         clickedMainSlotElement && !clickedMainSlotElement.contains(event.target) &&
         event.target !== clickedMainSlotElement && !isDescendant(clickedMainSlotElement, event.target)) {
-        // Дополнительно проверяем, что клик не был по элементу, который открыл панель
         let isClickOnTrigger = false;
         document.querySelectorAll('[data-slot-type]').forEach(trigger => {
             if (trigger.contains(event.target) || trigger === event.target) {
@@ -663,7 +665,6 @@ window.addEventListener('click', function(event) {
         }
     }
 });
-// Вспомогательная функция для проверки, является ли элемент потомком другого
 function isDescendant(parent, child) {
     let node = child.parentNode;
     while (node != null) {
@@ -674,7 +675,6 @@ function isDescendant(parent, child) {
     }
     return false;
 }
-
 
 // --- Start Application ---
 document.addEventListener('DOMContentLoaded', initializeGameData);
