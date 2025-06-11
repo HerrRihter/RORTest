@@ -303,17 +303,27 @@ body {
     border-radius: 5px 5px 0 0; 
     padding: 0;
     margin-bottom: 0; 
-    justify-content: flex-start;
+    /* justify-content: flex-start;  Убрано/изменено для центрирования картинки ниже */
+    display: flex; /* Добавлено для лучшего контроля над дочерними элементами */
+    flex-direction: column; /* Элементы внутри будут располагаться вертикально */
+    align-items: center; /* Центрирование картинки по горизонтали */
+    justify-content: center; /* Центрирование картинки по вертикали, если есть место */
     overflow: hidden; 
     position: relative; 
 }
 
 .item-slot.development-area img { 
-    width: 100%;
-    height: 100%;
+    width: auto; /* Позволит сохранять пропорции */
+    max-width: 90%; /* Ограничение, чтобы не прилипало к краям */
+    height: auto; /* Позволит сохранять пропорции */
+    max-height: calc(100% - 2.8em - 8px); /* Оставляем место для подписи (2 строки + отступы) */
+                                         /* 2.8em ~ 2 строки текста + line-height */
+                                         /* 8px ~ padding подписи + небольшой зазор */
     object-fit: contain;
-    margin-bottom: 5px;
+    /* margin-bottom убран, так как позиционирование подписи абсолютное */
+    display: block; /* Убедимся, что это блочный элемент для корректного display */
 }
+
 
 .item-slot.development-area .item-slot-label-small {
     position: absolute;
@@ -596,28 +606,35 @@ body {
     .national-info-pane { width: 100%; }
 
     .item-slot, .advisor-portrait-slot, .constitutional-principle, .corporation-slot {
-        width: calc((100% - 4 * 10px) / 5);
+        width: calc((100% - 4 * 10px) / 5); /* 5 в ряд */
         min-height: 85px;
     }
     
     .advisor-portrait-slot { 
         height: 150px; 
     }
+    .advisor-portrait-slot img { /* Добавлено для планшетов тоже, на всякий случай */
+        object-fit: contain; 
+    }
     
     .development-area-wrapper {
-        width: calc((100% - 4 * 10px) / 5);
+        width: calc((100% - 4 * 10px) / 5); /* 5 в ряд */
     }
     
     .item-slot.development-area {
-        height: 128px; 
+        height: 140px; /* Увеличим и здесь */
         width: 100%;
+    }
+     .item-slot.development-area img {
+        max-width: 85%;
+        max-height: calc(100% - 2.6em - 6px); /* Адаптируем под размер шрифта метки */
     }
     
     .dev-progress-bar-container {
         height: 15px;
     }
     
-    .item-slot-label-small { font-size: 0.65em; max-height: 3.3em; }
+    .item-slot-label-small { font-size: 0.65em; max-height: 3.3em; } /* Увеличим немного max-height если шрифт больше */
 
     .political-details { gap: 8px; }
     .pie-chart { width: 100px; height: 100px;}
@@ -628,17 +645,11 @@ body {
     .modal-content { max-width: 90%; }
 
     .focus-modal-projects-container { gap: 10px; padding: 10px 2px; }
-    /* .focus-project-item остается с базовой шириной иконки 90px, 
-       но будет переноситься из-за flex-wrap */
     .focus-project-icon { 
-        /* Размеры 90x90 остаются, если влезают. 
-           Можно добавить max-width: calc((100% - X*gap) / Y - 2*border) для адаптивности,
-           но это усложнит, если много иконок. 
-           Для примера, если мы хотим не более 5-6 иконок в ряд на 992px: */
-        /* max-width: 80px; max-height: 80px; */
+        width: 90px; height: 90px; min-width: 90px;
     }
     .focus-project-progress-bar-container { 
-        width: 100%; /* подстраивается под ширину .focus-project-icon */
+        width: 90px;
         height: 12px; 
     }
      .focus-project-progress-bar-text {
@@ -669,62 +680,77 @@ body {
     .party-list { max-height: 90px; }
 
     .lower-section { padding-right: 0; max-height: none; overflow-y:visible;}
-    .category-items { padding: 8px; gap: 8px; }
+    .category-items { padding: 8px; gap: 8px; justify-content: space-around; } /* space-around для лучшего распределения 3х элементов */
     
     .item-slot, .constitutional-principle, .corporation-slot {
-        width: calc((100% - 2 * 8px) / 3);
+        width: calc((100% - 2 * 8px) / 3 - 4px); /* 3 в ряд, -4px для небольшого зазора если space-around не сработает идеально */
         min-height: 75px; 
         padding: 0; 
     }
     
     .advisor-portrait-slot { 
-        width: calc((100% - 2 * 8px) / 3);
-        height: 120px; 
-        padding: 0; 
+        width: calc((100% - 2 * 8px) / 3 - 4px);
+        height: 130px; /* Можно немного увеличить высоту, если contain делает их слишком низкими */
+        padding: 0;
+    }
+    .advisor-portrait-slot img {
+        width: 100%; 
+        height: 100%; 
+        object-fit: contain; /* ИЗМЕНЕНО с cover на contain */
+        display: block;
     }
     
     .development-area-wrapper {
-        width: calc((100% - 2 * 8px) / 3);
+        width: calc((100% - 2 * 8px) / 3 - 4px);
         min-height: auto;
     }
     
     .item-slot.development-area {
-        height: 60px;
+        height: 105px; /* ИЗМЕНЕНО: Увеличена высота слота для иконки */
         width: 100%;
-        padding: 0; 
+        padding: 0;
+        /* display: flex, flex-direction, align-items, justify-content из базовых стилей будут применены */
     }
     
-    .item-slot img, 
+    .item-slot.development-area img {
+        width: auto; /* Убрано 120% */
+        max-width: 90%; /* Ограничение ширины для отступов */
+        height: auto;  /* Убрано 120% */
+        max-height: calc(100% - 2.4em - 6px); /* Оставляем место для подписи (которая 0.6em * 2 строки + padding)*/
+        object-fit: contain; 
+        display: block;
+        margin: 0; /* Убраны отрицательные отступы */
+    }
+    
+    .item-slot-label-small { 
+        font-size: 0.6em; 
+        max-height: 2.8em; /* Немного увеличено, если текст не влезает */
+        padding: 3px 3px; 
+        line-height: 1.3; /* Для лучшей читаемости */
+    }
+    .item-slot.development-area .item-slot-label-small .progress-text {
+        display: block; 
+        font-size: 0.95em; /* Немного крупнее для читаемости */
+        color: #b0b0b0; 
+        font-weight: normal;
+    }
+
+    /* Общие правила для изображений внутри слотов, если они были ранее, возможно, не нужны или должны быть скорректированы */
+    /* .item-slot img, (этот селектор был слишком общим) */
     .constitutional-principle img, 
-    .corporation-slot img,
-    .advisor-portrait-slot img {
+    .corporation-slot img { /* Убрали .advisor-portrait-slot img и .item-slot.development-area img отсюда, так как у них свои правила object-fit */
         width: 100%; 
         height: 100%; 
         object-fit: cover; 
         display: block;
     }
-    
-    .item-slot.development-area img {
-        width: 120%; 
-        height: 120%; 
-        object-fit: contain; 
-        display: block;
-        margin: -10%; 
-    }
-    
+        
     .dev-progress-bar-container { 
         height: 12px; 
         margin-top: 0px; 
     }
-    
     .dev-progress-bar-text { 
         font-size: 0.65em; 
-    }
-    
-    .item-slot-label-small { 
-        font-size: 0.6em; 
-        max-height: 2.4em; 
-        padding: 2px 3px; 
     }
 
     .side-panel { width: 96%; left: 2%; right: 2%; top: 5px; max-height: calc(100vh - 10px); font-size: 0.9em;}
@@ -742,20 +768,15 @@ body {
     .focus-modal-projects-container { 
         gap: 8px; 
         padding: 8px 0px;
-        /* Можно попробовать разместить 3-4 иконки в ряд */
-        justify-content: space-around; /* Для лучшего распределения при малом количестве */
-    }
-    .focus-project-item { 
-        /* Ширина будет зависеть от flex-wrap и gap, 
-           но мы хотим, чтобы сама иконка была базой */
+        justify-content: space-around; 
     }
     .focus-project-icon { 
-        width: 60px; /* Уменьшаем иконки для мобильных, чтобы больше влезло */
-        height: 60px; 
-        min-width: 60px;
+        width: 75px; 
+        height: 75px; 
+        min-width: 75px;
     }
     .focus-project-progress-bar-container { 
-        width: 60px; /* Соответствует иконке */
+        width: 75px; 
         height: 10px; 
     }
      .focus-project-progress-bar-text {
