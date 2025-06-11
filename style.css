@@ -510,19 +510,19 @@ body {
 }
 
 @media (max-width: 576px) {
-    body { padding: 5px; }
-    .main-content { padding: 5px; }
+    body { padding: px; }
+    .main-content { padding: px; }
     .window-title-bar { padding: 8px 10px; font-size: 1.1em; }
     .upper-section { padding-bottom: 15px; margin-bottom: 10px; }
     .leader-pane { max-width: 100%; flex-basis: auto; }
     .leader-portrait { width: 120px; height: 160px; }
-    .ideology-icon, .party-emblem { width: 50px; height: 50px; min-width: 50px;}
+    .ideology-icon, .party-emblem { width: 80px; height: 80px; min-width: 50px;}
     .national-focus-banner { height: 80px; }
     .focus-title-bar { font-size: 0.9em; width: 150px; }
     .national-spirits { gap: 4px; padding: 5px; min-height: 30px; justify-content: center; }
-    .spirit-icon { width: 45px; height: 45px; }
+    .spirit-icon { width: 50px; height: 50px; }
     .political-details { flex-direction: column; gap: 10px; }
-    .ruling-party-info, .political-system-info-container, .party-popularity { flex-basis: auto; width: 100%; }
+    .ruling-party-info, .political-system-info-container, .party-popularity { flex-basis: auto; width: 280px; }
     .party-popularity { flex-direction: column; align-items: stretch; }
     .pie-chart { width: 90px; height: 90px; margin-right: 0; margin-bottom: 10px; align-self: center;}
     #partyPieChartCanvas { width: 90px; height: 90px; }
@@ -531,13 +531,45 @@ body {
     .category-items { padding: 8px; gap: 8px; justify-content: space-around; }
     
     .advisor-portrait-slot
-    {
-         width: 156px; 
-    }
+    {width: 78px; height: 117px}
     
+    .corporation-slot
+    {width: 90px;height:90px}
+
+    .item-slot.development-area
+    {width: 90px; height: 134px}
+
+    .constitutional-principle 
+    {
+    width: 90px; height: 90px;
+    background-image: url('history/portraits_background/constitutional_principles_empty_bg.png');
+    }
+    .item-slot-label-small
+    {
+    position: absolute;
+    bottom: 0;
+    border: 1px solid #bbb;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Чуть увеличил непрозрачность для лучшей читаемости */
+    color: #fff;
+    font-size: 0.60em;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 1.2; /* Немного увеличим для лучшего вида многострочного текста */
+    padding: 1px 1px; /* Отступы внутри плашки с текстом */
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* По-прежнему пытаемся ограничить 2 строками */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    z-index: 1;
+    }
+
+
 
     .item-slot.development-area img { padding: 0; }
-    .item-slot-label-small { font-size: 0.6em; line-height: 1.2; padding: 2px 2px; -webkit-line-clamp: 2; }
     .dev-progress-bar-container { height: 12px; margin-top: 0px; }
     .dev-progress-bar-text { font-size: 0.65em; }
     .side-panel { width: 96%; left: 2%; right: 2%; top: 5px; max-height: calc(100vh - 10px); font-size: 0.9em;}
