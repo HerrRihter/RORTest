@@ -277,61 +277,93 @@ body {
     display: block;
 }
 
-/* --- Стили для ОБЛАСТЕЙ РАЗВИТИЯ --- */
-.development-area-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 132px; 
-    align-self: flex-start; /* Тоже может быть полезно, чтобы высота не растягивалась из-за других элементов в ряду*/
-}
-.item-slot.development-area { 
-    width: 132px; 
-    height: 150%;
-    position: relative;
-    background-color: #3a3a3a;
-    background-image: url('history/portraits_background/empty_advisor_bg.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: 1px solid #666;
-    border-radius: 5px 5px 0 0; 
-    margin-bottom: 0;
-    overflow: hidden; 
-}
-.item-slot.development-area img { 
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: contain; 
-    display: block;
-    padding: 0; 
-    box-sizing: border-box;
-}
-
-/* Подпись НАЗВАНИЯ УРОВНЯ внутри .item-slot.development-area (и других слотов) */
 .item-slot-label-small {
     position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background-color: rgba(0, 0, 0, 0.75); 
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Чуть увеличил непрозрачность для лучшей читаемости */
     color: #fff;
     font-size: 0.68em;
     text-align: center;
     width: 100%;
     box-sizing: border-box;
-    line-height: 1.3; 
-    padding: 4px 3px; 
+    line-height: 1.25; /* Немного увеличим для лучшего вида многострочного текста */
+    padding: 4px 3px; /* Отступы внутри плашки с текстом */
+    
     display: -webkit-box;
-    -webkit-line-clamp: 2; 
+    -webkit-line-clamp: 2; /* По-прежнему пытаемся ограничить 2 строками */
     -webkit-box-orient: vertical;
     overflow: hidden;
+    /* Для выравнивания текста по центру плашки, если он короче 2х строк, можно добавить: */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* Но это может конфликтовать с -webkit-line-clamp. Лучше подобрать padding. */
     z-index: 1;
 }
-.item-slot.development-area .item-slot-label-small .progress-text {
-    display: block; 
-    font-size: 0.95em; 
-    color: #b0b0b0; 
-    font-weight: normal;
+
+/* --- Стили для ОБЛАСТЕЙ РАЗВИТИЯ --- */
+.development-area-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 132px;
+}
+
+.item-slot.development-area { /* Слот только для иконки и названия уровня */
+    height: 198px;
+    width: 132px;/* Высота для иконки и названия текущего уровня */
+    background-color: #4a4a4a; /* Фон для этой части */
+        /* --- ФОН ДЛЯ ПУСТОГО СЛОТА --- */
+    background-color: #3a3a3a;
+    background-image: url('history/portraits_background/empty_advisor_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* --- КОНЕЦ ФОНА ДЛЯ ПУСТОГО СЛОТА --- */
+    border: 1px solid #666;
+    border-radius: 5px 5px 0 0; /* Скругление только верхних углов */
+    padding: 0;
+    margin-bottom: 0; /* Убираем отступ, т.к. шкала будет прилегать */
+    justify-content: flex-start;
+    overflow: hidden; /* Прячем все, что не влезает в этот слот */
+    position: relative; /* Для подписи НАЗВАНИЯ УРОВНЯ, если она абсолютная */
+}
+
+.item-slot.development-area img { /* Иконка самой области развития */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    margin-bottom: 5px;
+    /* z-index и position:relative убраны, т.к. текст теперь всегда под ней */
+}
+
+/* Подпись НАЗВАНИЯ УРОВНЯ внутри .item-slot.development-area */
+.item-slot.development-area .item-slot-label-small {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Чуть увеличил непрозрачность для лучшей читаемости */
+    color: #fff;
+    font-size: 0.68em;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 1.25; /* Немного увеличим для лучшего вида многострочного текста */
+    padding: 4px 3px; /* Отступы внутри плашки с текстом */
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* По-прежнему пытаемся ограничить 2 строками */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* Для выравнивания текста по центру плашки, если он короче 2х строк, можно добавить: */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* Но это может конфликтовать с -webkit-line-clamp. Лучше подобрать padding. */
+    z-index: 1;
 }
 
 .dev-progress-bar-container {
