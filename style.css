@@ -288,8 +288,7 @@ body {
 }
 .item-slot.development-area { 
     width: 132px; 
-    height: 0;
-    padding-bottom: 198px; /* (198 / 132) * 100% */
+    height: 198px;
     position: relative;
     background-color: #3a3a3a;
     background-image: url('history/portraits_background/empty_advisor_bg.png');
@@ -493,7 +492,7 @@ body {
     .national-focus-banner { height: 80px; }
     .focus-title-bar { font-size: 0.9em; width: 150px; }
     .national-spirits { gap: 4px; padding: 5px; min-height: 30px; justify-content: center; }
-    .spirit-icon { width: 32px; height: 32px; }
+    .spirit-icon { width: 45px; height: 45px; }
     .political-details { flex-direction: column; gap: 10px; }
     .ruling-party-info, .political-system-info-container, .party-popularity { flex-basis: auto; width: 100%; }
     .party-popularity { flex-direction: column; align-items: stretch; }
