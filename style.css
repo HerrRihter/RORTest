@@ -160,7 +160,7 @@ body {
 }
 .pol-sys-upper { display: flex; align-items: center; margin-bottom: 10px; width: 100%;}
 .pol-sys-icon-wrapper { flex-basis: 40%; flex-shrink: 0; padding-right: 8px; box-sizing: border-box; display: flex; justify-content: center; align-items: center;}
-.pol-sys-icon-wrapper img.flag { width: 100%; max-width: 45px; height: auto; border: 1px solid #777; display: block; } 
+.pol-sys-icon-wrapper img.flag { width: 100%; max-width: 75px; height: auto; border: 1px solid #777; display: block; } 
 .pol-sys-text-wrapper { flex-basis: 60%; text-align: left; font-size: 0.95em; line-height: 1.3; color: #e0e0e0;}
 .balance-btn {
     background-color: #5a5a5a; color: #e0e0e0; border: 1px solid #777;
@@ -312,7 +312,7 @@ body {
 }
 
 .item-slot.development-area { /* Слот только для иконки и названия уровня */
-    height: 198px;
+    height: 197px;
     width: 132px;/* Высота для иконки и названия текущего уровня */
     background-color: #4a4a4a; /* Фон для этой части */
         /* --- ФОН ДЛЯ ПУСТОГО СЛОТА --- */
@@ -411,7 +411,7 @@ body {
     position: fixed; background-color: rgba(10,10,10,0.92); color: #fff;
     padding: 10px 15px; border-radius: 4px; font-size: 0.9em;
     white-space: pre-line; z-index: 1003; pointer-events: none;
-    max-width: 400px; border: 1px solid #666; box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    max-width: 800px; border: 1px solid #666; box-shadow: 0 2px 8px rgba(0,0,0,0.6);
 }
 .tooltip hr { margin: 6px 0; border: none; border-top: 1px solid #555; }
 .tooltip strong { display: block; margin-bottom: 4px; font-size: 1.05em; color: #fff; }
@@ -458,7 +458,7 @@ body {
 #focusModalImage { max-width: 100%; max-height: 100%; object-fit: contain; display: block; border-radius: 3px; }
 .focus-modal-projects-container { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 12px; padding: 15px 5px; margin-bottom: 15px; border-top: 1px solid #555; border-bottom: 1px solid #555; background-color: rgba(34, 34, 34, 0.5); min-height: 80px; }
 .focus-project-item { display: flex; flex-direction: column; align-items: center; cursor: help; text-align: center; }
-.focus-project-icon { width: 90px; height: 90px; min-width: 90px; background-color: #383838; border: 1px solid #5c5c5c; border-radius: 4px; margin-bottom: 6px; display: flex; justify-content: center; align-items: center; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+.focus-project-icon { width: 156px; height: 156px; min-width: 90px; background-color: #383838; border: 1px solid #5c5c5c; border-radius: 4px; margin-bottom: 6px; display: flex; justify-content: center; align-items: center; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
 .focus-project-icon img { width: 90%; height: 90%; object-fit: contain; display: block; }
 .focus-project-progress-bar-container { width: 90px; height: 16px; background-color: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 3px; overflow: hidden; position: relative; }
 .focus-project-progress-bar-fill { height: 100%; background-color: #3a7c4a; transition: width 0.3s ease-in-out; border-radius: 2px; }
@@ -471,11 +471,63 @@ body {
 .side-panel-close-button { font-size: 24px; font-weight: bold; color: #aaa; cursor: pointer; padding: 0 5px; }
 .side-panel-close-button:hover { color: #fff; }
 .side-panel-content { padding: 10px; overflow-y: auto; flex-grow: 1; }
-.side-panel-option { display: flex; align-items: center; padding: 12px 10px; margin-bottom: 6px; background-color: #383838; border: 1px solid #4c4c4c; border-radius: 3px; cursor: pointer; transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; }
-.side-panel-option:hover { background-color: #484848; border-color: #666; }
-.side-panel-option.active { background-color: #4a6b3a; border-color: #6a8b5a; }
-.side-panel-option-icon { width: 40px; height: 40px; min-width: 40px; margin-right: 12px; object-fit: fill; border-radius: 3px; display: block; }
-.side-panel-option-name { flex-grow: 1; font-size: 0.95em; line-height: 1.3; }
+.side-panel-option {
+    display: flex;              /* Включаем flexbox */
+    flex-direction: column;     /* Располагаем элементы (иконку и имя) вертикально */
+    align-items: center;        /* Центрируем иконку и блок имени по горизонтали */
+    padding: 15px 10px;         /* Отступы внутри каждого элемента списка (увеличил вертикальные) */
+    margin-bottom: 6px;
+    background-color: #383838; 
+    border: 1px solid #4c4c4c; 
+    border-radius: 3px;
+    cursor: pointer; 
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    box-sizing: border-box;
+}
+
+.side-panel-option:hover { 
+    background-color: #484848; 
+    border-color: #666; 
+}
+.side-panel-option.active { 
+    background-color: #4a6b3a; 
+    border-color: #6a8b5a; 
+}
+
+.side-panel-option-icon { /* Портрет */
+    object-fit: contain; /* Отобразит весь портрет, сохранив пропорции, внутри этого слота. Будут поля, если портрет не квадратный. */
+                         /* Если хотите, чтобы портрет заполнил квадратный слот (с обрезкой): object-fit: cover; object-position: center top; */
+    border-radius: 3px; 
+    display: block; /* Убирает возможный нижний отступ у img */
+    margin-bottom: 10px; /* Отступ между портретом и именем */
+    background-color: #2a2a2a; /* Фон для областей letterbox, если портрет не квадратный и object-fit: contain */
+}
+
+.side-panel-option-name { /* Текст имени */
+    font-size: 0.95em; 
+    line-height: 1.3;
+    color: #e0e0e0;       /* Явно задаем цвет текста */
+    text-align: center;   /* Центрирование текста по горизонтали */
+    width: 100%;          /* Позволяет text-align: center корректно работать для блока текста */
+    overflow-wrap: break-word; /* Перенос длинных слов */
+    word-break: break-word;   /* Дополнительно для переноса */
+}
+
+
+/* --- Кнопка Сохранения --- */
+.save-button {
+    cursor: pointer;
+    padding: 3px 9px;
+    background-color: #4CAF50; /* Зеленый цвет для кнопки сохранения */
+    color: white;
+    border: 1px solid #388E3C;
+    border-radius: 3px;
+    font-size: 0.8em; /* Чтобы поместилась рядом с крестиком */
+    font-weight: bold;
+}
+.save-button:hover {
+    background-color: #66BB6A;
+}
 
 /* --- Адаптивные стили --- */
 @media (max-width: 992px) {
@@ -522,9 +574,9 @@ body {
     .national-spirits { gap: 4px; padding: 5px; min-height: 30px; justify-content: center; }
     .spirit-icon { width: 50px; height: 50px; }
     .political-details { flex-direction: column; gap: 10px; }
-    .ruling-party-info, .political-system-info-container, .party-popularity { flex-basis: auto; width: 280px; }
+    .ruling-party-info, .political-system-info-container, .party-popularity { flex-basis: auto; width:; }
     .party-popularity { flex-direction: column; align-items: stretch; }
-    .pie-chart { width: 90px; height: 90px; margin-right: 0; margin-bottom: 10px; align-self: center;}
+    .pie-chart { width: 90%; height: 90px; margin-right: 0; margin-bottom: 10px; align-self: center;}
     #partyPieChartCanvas { width: 90px; height: 90px; }
     .party-list { max-height: 90px; }
     .lower-section { padding-right: 0; max-height: none; overflow-y:visible;}
@@ -570,13 +622,13 @@ body {
 
 
     .item-slot.development-area img { padding: 0; }
-    .dev-progress-bar-container { height: 12px; margin-top: 0px; }
+    .dev-progress-bar-container { height: 12px; width: 90px; margin-top: 0px;}
     .dev-progress-bar-text { font-size: 0.65em; }
-    .side-panel { width: 96%; left: 2%; right: 2%; top: 5px; max-height: calc(100vh - 10px); font-size: 0.9em;}
+    .side-panel { width: 50%; left: 2%; right: 2%; top: 5px; max-height: calc(100vh - 10px); font-size: 0.9em;}
     .side-panel-header { padding: 8px 10px; }
     .side-panel-header h4 { font-size: 1em; }
     .side-panel-option { padding: 8px; margin-bottom: 4px; }
-    .side-panel-option-icon { width: 30px; height: 30px; min-width: 30px; margin-right: 8px;}
+    .side-panel-option-icon { width: 25%; height: 25%; margin-right: 8px;}
     .side-panel-option-name { font-size: 0.9em; }
     .tooltip { font-size: 0.8em; max-width: 90vw; padding: 8px 10px; }
     .focus-modal-content { max-width: 95%; padding: 15px; }
