@@ -142,6 +142,15 @@
                 "social_development": 1
             }
         },
+		       {
+            "id": "moscow_advance",
+            "name": "Москва не Россия: Московское опережение",
+            "icon_path": "history/national_spirits_icons/moscow_advance.png",
+            "description": "Москва не Россия не зря говорят, она обогняет всех честных ребят.\nОбразование:56\n Здравоохранение:34\n Достаток Населения:67\n Промышленность:87\n Безопасность:24",
+            "effects_summary": "",
+            "development_impulses": {
+            }
+        },
         {
             "id": "development_pace_aggregator",
             "name": "Темпы Развития",
