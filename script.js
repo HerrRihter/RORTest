@@ -114,7 +114,7 @@ if (closeBalanceModalBtn_Balance) closeBalanceModalBtn_Balance.onclick = () => {
 
 const GAME_DATA = { 
     leaders: {}, constitutional_principles: {}, development_areas: {}, corporations: {}, 
-    ideologies: {}, parties: {}, national_spirits: {}, currentNationalFocus: null,
+    ideologies: {}, parties: {}, national_spirits: {}, currentNationalFocus: null, diplomacy: {},
     currentState: { 
         display_leader_id: null, display_ideology_id: null,
         ruling_party_id: null, active_national_focus_id: null,
@@ -126,7 +126,9 @@ const GAME_DATA = {
 const ALL_DATA_FILES_TO_LOAD = [
     "history/leaders.json", "history/constitutional_principles.json", "history/development_areas.json",
     "history/corporations.json", "history/ideologies.json", "history/parties.json",
-    "history/national_spirits.json", "history/national_focus_data.json", "history/current_state.json, history/diplomacy.json" 
+    "history/national_spirits.json", "history/national_focus_data.json", 
+    "history/current_state.json", // Corrected: Separated from diplomacy.json
+    "history/diplomacy.json"      // Corrected: Now a separate entry
 ];
 
 async function loadJsonFile(filePath) {
@@ -171,9 +173,9 @@ async function initializeGameData() {
                         }
                     }
                 } else { 
-                     Object.keys(GAME_DATA.development_areas).forEach(areaId => { // Этот блок выполнится если development_areas уже загружены
+                     Object.keys(GAME_DATA.development_areas).forEach(areaId => { 
                         const areaDef = GAME_DATA.development_areas[areaId];
-                        if(areaDef) { // Проверка, что areaDef существует
+                        if(areaDef) { 
                            GAME_DATA.currentState.development_areas_state[areaId] = {
                                current_level_id: areaDef.current_level_id || areaDef.levels?.[0]?.id,
                                current_progress: areaDef.current_progress ?? 0
@@ -187,7 +189,6 @@ async function initializeGameData() {
                 if (GAME_DATA.constitutional_principles) {
                     Object.keys(GAME_DATA.constitutional_principles).forEach(pId => {
                         const principle = GAME_DATA.constitutional_principles[pId];
-                        // В файлах определений constitutional_principles.json теперь нет is_current. Берем первую опцию.
                         const defaultOption = principle.options?.[0];
                         if (defaultOption) GAME_DATA.currentState.constitutional_principles_selected_options[pId] = defaultOption.id;
                     });
@@ -195,7 +196,6 @@ async function initializeGameData() {
                  if (GAME_DATA.development_areas) {
                     Object.keys(GAME_DATA.development_areas).forEach(areaId => {
                         const areaDef = GAME_DATA.development_areas[areaId];
-                        // В файлах определений development_areas.json теперь нет current_level_id/current_progress. Берем первый уровень и 0 прогресс.
                         if(areaDef) {
                             GAME_DATA.currentState.development_areas_state[areaId] = {
                                 current_level_id: areaDef.levels?.[0]?.id, 
@@ -204,22 +204,18 @@ async function initializeGameData() {
                         }
                     });
                 }
-                 // Для advisors_selected и corporations_selected нужно взять ID из HTML слотов, ЕСЛИ бы мы не удаляли их оттуда.
-                 // Так как мы их удалили, начальное состояние этих полей будет {}, и они заполнятся из current_state.json 
-                 // или останутся пустыми (и тогда initializeUI отобразит плейсхолдеры)
             }
         }
     });
     await Promise.all(loadPromises);
-    // Если current_state.json не был найден, и GAME_DATA.development_areas еще не были загружены при первой попытке инициализации из него
     if (!GAME_DATA.currentState.development_areas_state || Object.keys(GAME_DATA.currentState.development_areas_state).length === 0) {
         if (GAME_DATA.development_areas && Object.keys(GAME_DATA.development_areas).length > 0) {
              console.warn("Дополнительная инициализация development_areas_state из определений.");
             Object.keys(GAME_DATA.development_areas).forEach(areaId => {
                 const areaDef = GAME_DATA.development_areas[areaId];
                  GAME_DATA.currentState.development_areas_state[areaId] = {
-                    current_level_id: areaDef.levels?.[0]?.id, // Первый уровень по умолчанию
-                    current_progress: 0 // 0 прогресс по умолчанию
+                    current_level_id: areaDef.levels?.[0]?.id, 
+                    current_progress: 0 
                 };
             });
         }
@@ -267,7 +263,7 @@ function openSidePanelForCategory(slotType, clickedSlotEl) {
         panelTitle = areaData.name || "Область Развития"; optionsToShow = areaData.levels || []; iconPreviewClass = 'dev-area-icon-preview';
     } else if (slotType.startsWith("corporation_slot_")) {
         panelTitle = "Выбор Корпорации"; 
-        optionsToShow = Object.values(GAME_DATA.corporations || {}).filter(c => typeof c === 'object' && c.id && c.name && c.icon_path); // Убедимся, что есть все нужные поля
+        optionsToShow = Object.values(GAME_DATA.corporations || {}).filter(c => typeof c === 'object' && c.id && c.name && c.icon_path); 
         iconPreviewClass = 'corporation-icon-preview';
     }
     if(sidePanelTitleEl) sidePanelTitleEl.textContent = panelTitle;
@@ -315,7 +311,6 @@ function selectOptionInSidePanel(selectedOptionId, targetSlotType) {
         chosenData = parentCategoryData?.levels?.find(lvl => lvl.id === selectedOptionId);
         if (GAME_DATA.currentState.development_areas_state && GAME_DATA.currentState.development_areas_state[developmentAreaIdForState]) {
             GAME_DATA.currentState.development_areas_state[developmentAreaIdForState].current_level_id = selectedOptionId;
-            // if (chosenData) GAME_DATA.currentState.development_areas_state[developmentAreaIdForState].current_progress = 0; 
         }
     } else if (targetSlotType.startsWith("corporation_slot_")) {
         chosenData = GAME_DATA.corporations[selectedOptionId];
@@ -332,10 +327,9 @@ function selectOptionInSidePanel(selectedOptionId, targetSlotType) {
     if (principleIdForState && parentCategoryData?.icon_path && clickedMainSlotElement.classList.contains('constitutional-principle')) {
          imgSrc = parentCategoryData.icon_path;
     }
-    // Для development_area иконка уровня уже в chosenData.icon_path и будет использована.
 
     if (mainSlotImg) {
-      mainSlotImg.src = imgSrc || 'https://via.placeholder.com/132x132/3a3a3a/666?text=?'; // Общий плейсхолдер
+      mainSlotImg.src = imgSrc || 'https://via.placeholder.com/132x132/3a3a3a/666?text=?'; 
       mainSlotImg.alt = chosenData.name?.substring(0, 3) || "ICO";
     }
 
@@ -418,7 +412,7 @@ function updatePartyList() {
     const partyListContainer = document.getElementById('partyListContainer');
     if (!partyListContainer) { console.error("Контейнер списка партий не найден!"); return; }
     if (!GAME_DATA.parties_array || GAME_DATA.parties_array.length === 0) { partyListContainer.innerHTML = "<li>Нет данных о партиях</li>"; return; }
-    const rulingPartyIdFromState = GAME_DATA.currentState?.ruling_party_id || "united_russia"; // Из состояния или дефолт
+    const rulingPartyIdFromState = GAME_DATA.currentState?.ruling_party_id || "united_russia"; 
     const sortedParties = [...GAME_DATA.parties_array].filter(p => p.popularity > 0 || p.id === rulingPartyIdFromState).sort((a, b) => b.popularity - a.popularity);
     partyListContainer.innerHTML = '';
     sortedParties.forEach(party => {
@@ -434,7 +428,15 @@ function updatePartyList() {
 
 function renderDiplomacySection() {
   const container = document.getElementById("diplomacy-container");
-  if (!container || !GAME_DATA.diplomacy) return;
+  if (!container) {
+    console.warn("Diplomacy container not found");
+    return;
+  }
+  if (!GAME_DATA.diplomacy || Object.keys(GAME_DATA.diplomacy).length === 0) {
+    console.warn("No diplomacy data available in GAME_DATA.diplomacy");
+    container.innerHTML = "<p style='text-align:center;color:#888;'>Данные дипломатии не загружены.</p>";
+    return;
+  }
 
   container.innerHTML = "";
   Object.values(GAME_DATA.diplomacy).forEach(country => {
@@ -442,7 +444,7 @@ function renderDiplomacySection() {
     div.className = "diplomacy-card";
 
     const flag = document.createElement("img");
-    flag.src = country.flag_path || "https://via.placeholder.com/64x40";
+    flag.src = country.flag_path || "https://via.placeholder.com/64x40?text=Flag";
     flag.alt = country.name;
     flag.className = "diplomacy-flag";
 
@@ -461,6 +463,8 @@ function renderDiplomacySection() {
     status.innerHTML =
       (country.is_ally ? "🤝 Союзник " : "") +
       (country.is_enemy ? "⚔️ Противник" : "");
+    if (!country.is_ally && !country.is_enemy) status.textContent = "Статус: Нейтралитет";
+
 
     div.appendChild(flag);
     div.appendChild(name);
@@ -468,6 +472,7 @@ function renderDiplomacySection() {
     div.appendChild(trade);
     div.appendChild(status);
 
+    addTooltipEventsToElement(div, country.name, `Отношения: ${country.relations}\nТорговое соглашение: ${country.has_trade_agreement ? "Да" : "Нет"}${country.tooltip_additional_info ? "\n"+country.tooltip_additional_info : ""}`, country.description_full);
     container.appendChild(div);
   });
 }
@@ -676,8 +681,6 @@ function initializeUI() {
                     slotEl.appendChild(labelEl);
                     let tooltipEffectsSummary = `Прогресс: ${currentProgress}/${progressPerLevel}`;
                     if(currentLevelData.effects_summary) tooltipEffectsSummary += `\n${currentLevelData.effects_summary}`;
-                    // В тултипе для областей развития не нужно дублировать описание уровня, оно уже есть в названии и эффектах.
-                    // Если есть specific description у уровня, оно пойдет в fullDescription.
                     addTooltipEventsToElement(slotEl, currentLevelData.name_display || "Уровень", tooltipEffectsSummary, currentLevelData.description, areaDef.name);
                     slotEl.addEventListener('click', function() { openSidePanelForCategory(this.dataset.slotType, this); });
                     areaWrapperEl.appendChild(slotEl);
@@ -756,8 +759,8 @@ window.addEventListener('click', function(event) {
         !selectionSidePanel.contains(event.target) && 
         clickedMainSlotElement && !clickedMainSlotElement.contains(event.target) &&
         event.target !== clickedMainSlotElement && !isDescendant(clickedMainSlotElement, event.target) &&
-        event.target !== balanceButton && !balanceButton.contains(event.target) && /* Исключаем кнопку Баланс */
-        event.target !== nationalFocusBannerClickable && !nationalFocusBannerClickable.contains(event.target) /* Исключаем баннер фокуса */
+        event.target !== balanceButton && (!balanceButton || !balanceButton.contains(event.target)) && 
+        event.target !== nationalFocusBannerClickable && (!nationalFocusBannerClickable || !nationalFocusBannerClickable.contains(event.target))
         ) {
         let isClickOnTriggerForSidePanel = false;
         document.querySelectorAll('.advisor-portrait-slot, .corporation-slot, .constitutional-principle, .development-area').forEach(trigger => {
