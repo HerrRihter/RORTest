@@ -126,7 +126,7 @@ const GAME_DATA = {
 const ALL_DATA_FILES_TO_LOAD = [
     "history/leaders.json", "history/constitutional_principles.json", "history/development_areas.json",
     "history/corporations.json", "history/ideologies.json", "history/parties.json",
-    "history/national_spirits.json", "history/national_focus_data.json", "history/current_state.json" 
+    "history/national_spirits.json", "history/national_focus_data.json", "history/current_state.json, history/diplomacy.json" 
 ];
 
 async function loadJsonFile(filePath) {
@@ -149,6 +149,7 @@ async function initializeGameData() {
         else if (filePath.endsWith('ideologies.json') && data.options) { GAME_DATA.ideologies = {}; data.options.forEach(i => {if(i.id)GAME_DATA.ideologies[i.id] = i;}); }
         else if (filePath.endsWith('parties.json') && data.options) { GAME_DATA.parties_array = data.options; GAME_DATA.parties = {}; data.options.forEach(p => {if(p.id)GAME_DATA.parties[p.id] = p;}); }
         else if (filePath.endsWith('national_spirits.json') && data.options) { GAME_DATA.national_spirits = {}; data.options.forEach(s => {if(s.id)GAME_DATA.national_spirits[s.id] = s;}); }
+		else if (filePath.endsWith('diplomacy.json') && data.countries) { GAME_DATA.diplomacy = data.countries.reduce((acc, country) => {acc[country.id] = country;return acc;}, {});}
         else if (filePath.endsWith('national_focus_data.json') && data.current_focus) { GAME_DATA.currentNationalFocus = data.current_focus; }
         else if (filePath.endsWith('current_state.json')) {
             if (data) {
@@ -431,6 +432,46 @@ function updatePartyList() {
     });
 }
 
+function renderDiplomacySection() {
+  const container = document.getElementById("diplomacy-container");
+  if (!container || !GAME_DATA.diplomacy) return;
+
+  container.innerHTML = "";
+  Object.values(GAME_DATA.diplomacy).forEach(country => {
+    const div = document.createElement("div");
+    div.className = "diplomacy-card";
+
+    const flag = document.createElement("img");
+    flag.src = country.flag_path || "https://via.placeholder.com/64x40";
+    flag.alt = country.name;
+    flag.className = "diplomacy-flag";
+
+    const name = document.createElement("div");
+    name.className = "diplomacy-name";
+    name.textContent = country.name;
+
+    const relation = document.createElement("div");
+    relation.className = "diplomacy-relation";
+    relation.textContent = `Отношения: ${country.relations}`;
+
+    const trade = document.createElement("div");
+    trade.textContent = `Торговля: ${country.has_trade_agreement ? "Да" : "Нет"}`;
+
+    const status = document.createElement("div");
+    status.innerHTML =
+      (country.is_ally ? "🤝 Союзник " : "") +
+      (country.is_enemy ? "⚔️ Противник" : "");
+
+    div.appendChild(flag);
+    div.appendChild(name);
+    div.appendChild(relation);
+    div.appendChild(trade);
+    div.appendChild(status);
+
+    container.appendChild(div);
+  });
+}
+
 function initializeUI() {
     const cs = GAME_DATA.currentState || {};
 
@@ -529,6 +570,8 @@ function initializeUI() {
     
     drawPoliticalPieChart(); 
     updatePartyList();
+	renderDiplomacySection();
+	
     
     if (balanceValueDisplay && cs?.balance_value !== undefined) { updateBalanceScale(cs.balance_value); }
     

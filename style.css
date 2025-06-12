@@ -529,6 +529,31 @@ body {
     background-color: #66BB6A;
 }
 
+.diplomacy-card {
+  width: 220px;
+  background-color: #2e2e2e;
+  border: 1px solid #444;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  text-align: center;
+}
+.diplomacy-flag {
+  width: 64px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 5px;
+}
+.diplomacy-name {
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 5px;
+}
+.diplomacy-relation {
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
 /* --- Адаптивные стили --- */
 @media (max-width: 992px) {
     body { padding: 10px; }
